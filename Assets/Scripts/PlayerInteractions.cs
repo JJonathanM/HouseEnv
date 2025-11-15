@@ -17,11 +17,14 @@ public class PlayerInteractions : MonoBehaviour {
         if (other.CompareTag("Enemy"))
         {
             cont--;
-            if (cont < 0)
+            if (cont < 1)
             {
                 SceneManager.LoadScene("Menu");
+            } else
+            {
+                vidas[cont].SetActive(false);
             }
-            vidas[cont].SetActive(false);
+                
         }
     }
 

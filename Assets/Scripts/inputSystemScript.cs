@@ -6,6 +6,8 @@ public class inputSystemScript : MonoBehaviour
 {
     [Header("General")]
     [SerializeField] Camera main_Camera;
+    Animator animator;
+    
 
     [Header("Movimiento")]
     [SerializeField] float speed = 2.0f;    
@@ -37,6 +39,7 @@ public class inputSystemScript : MonoBehaviour
     void Start()
     {
         characterC = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -50,7 +53,17 @@ public class inputSystemScript : MonoBehaviour
         }
 
         // Movement
-        Vector2 mVector = move.action.ReadValue<Vector2>();        
+        Vector2 mVector = move.action.ReadValue<Vector2>();
+
+        if (mVector.x != 0 || mVector.y != 0) {
+            animator.SetBool("isWalking", true);
+        } else {
+            animator.SetBool("isWalking", false);
+        }
+        if (Keyboard.current.bKey.isPressed)
+        {
+            animator.SetTrigger("emote");
+        }
         Vector3 fMove = (transform.right * mVector.x + transform.forward * mVector.y);
         float currentSpeed = speed;
         if (sprint.action.IsPressed())
